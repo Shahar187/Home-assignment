@@ -30,7 +30,7 @@ def create_csv_report():
         pr_data = create_dictionary(pr)
         data.append(pr_data)
 
-    with open(f'repo_data {date_time_str}.csv', 'w', newline='') as csv_file:
+    with open(f'prDataReports/pr_data {date_time_str}.csv', 'w', newline='') as csv_file:
         field_names = ['PR number', 'PR title', 'Author', 'Merge date', 'CR_Passed']
         writer = csv.DictWriter(csv_file, fieldnames=field_names)
         writer.writeheader()

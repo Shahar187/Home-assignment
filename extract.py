@@ -33,6 +33,7 @@ def get_reviews_data(pr_number):
     url = f"{base_url}/{pr_number}/reviews"
     response = fetch_information(url, headers=headers)
 
+    # If status_code is 200 we made a successful request!
     if response.status_code == 200:
         reviews = response.json()
         approved = any(r['state'] == 'APPROVED' for r in reviews)
