@@ -16,7 +16,7 @@ def fetch_information(url, headers):
 
 
 def get_pr_data():
-    url = f"https://api.github.com/repos/{owner}/{repo}/pulls?state=all"
+    url = f"{base_url}?state=all"
     response = fetch_information(url, headers=headers)
 
     # If status_code is 200 we made a successful request!
@@ -30,7 +30,7 @@ def get_pr_data():
 
 
 def get_reviews_data(pr_number):
-    url = f"https://api.github.com/repos/{owner}/{repo}/pulls/{pr_number}/reviews"
+    url = f"{base_url}/{pr_number}/reviews"
     response = fetch_information(url, headers=headers)
 
     if response.status_code == 200:
@@ -48,11 +48,9 @@ def get_reviews_data(pr_number):
 # repository and pull request data
 owner = "Scytale-exercise"
 repo = "scytale-repo3"
-org_name = "Scytle"
 
 # API URL for the get request function
-base_url = f"https://api.github.com/repos/{owner}/{repo}/"
-pull_request_data_url = f"https://api.github.com/repos/{owner}/{repo}/pulls?state=all"
+base_url = f"https://api.github.com/repos/{owner}/{repo}/pulls"
 
 # Authentication
 headers = {
