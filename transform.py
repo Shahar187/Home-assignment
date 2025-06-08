@@ -1,0 +1,49 @@
+import csv
+import extract
+
+def create_dictionary(pr):
+    pr_number = pr['number']
+    pr_title = pr['title']
+    author = pr['user']['login']
+    merge_date = pr['merged_at']
+    cr_passed = extract.get_reviews_data(pr_number)
+
+    pr_dic = {'PR number': pr_number,
+              'PR title': pr_title,
+              'Author': author,
+              'Merge date': merge_date,
+              'CR_Passed': cr_passed}
+
+    return pr_dic
+
+pull_requests = extract.pull_requests
+data=[]
+
+for pr in pull_requests[:5]:  # Show first 5 repos for brevity
+
+    pr_data = create_dictionary(pr)
+
+    data.append(pr_data)
+
+
+with open('repo_data.csv','w',newline ='') as csv_file:
+    field_names = ['PR number','PR title','Author','Merge date','CR_Passed']
+    writer = csv.DictWriter(csv_file, fieldnames=field_names)
+    writer.writeheader()
+    writer.writerows(data)
+
+def create_dictionary(pr):
+
+    pr_number = pr['number']
+    pr_title = pr['title']
+    author = pr['user']['login']
+    merge_date = pr['merged_at']
+    cr_passed = extract.get_reviews_data(pr_number)
+
+    pr_dic = {'PR number': pr_number,
+        'PR title': pr_title,
+        'Author': author,
+        'Merge date': merge_date,
+        'CR_Passed': cr_passed}
+
+    return pr_dic
