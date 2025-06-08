@@ -21,19 +21,24 @@ def create_dictionary(pr):
     return pr_dic
 
 
+# This function create the csv report that include all the necessary data
+def create_csv_report():
+    pull_requests = extract.get_pr_data()
+    data = []
+
+    for pr in pull_requests:
+        pr_data = create_dictionary(pr)
+        data.append(pr_data)
+
+    with open(f'repo_data {date_time_str}.csv', 'w', newline='') as csv_file:
+        field_names = ['PR number', 'PR title', 'Author', 'Merge date', 'CR_Passed']
+        writer = csv.DictWriter(csv_file, fieldnames=field_names)
+        writer.writeheader()
+        writer.writerows(data)
+
+
 now = datetime.now()
 date_time_str = now.strftime("%Y-%m-%d_%H-%M-%S")
 
-# CREATE A FUNCTION- create_csv_report()
-pull_requests = extract.get_pr_data()
-data = []
-
-for pr in pull_requests:
-    pr_data = create_dictionary(pr)
-    data.append(pr_data)
-
-with open(f'repo_data {date_time_str}.csv', 'w', newline='') as csv_file:
-    field_names = ['PR number', 'PR title', 'Author', 'Merge date', 'CR_Passed']
-    writer = csv.DictWriter(csv_file, fieldnames=field_names)
-    writer.writeheader()
-    writer.writerows(data)
+if __name__ == "__main__":
+    create_csv_report()
