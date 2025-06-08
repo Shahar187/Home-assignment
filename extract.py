@@ -64,7 +64,3 @@ pull_requests_response = api_connect(pull_request_data_url, headers=headers)
 #Get the pull request data
 pull_requests = get_pr_data(pull_requests_response)
 
-pr_number = None
-
-#Get the reviews data
-get_reviews_data(pr_number)
