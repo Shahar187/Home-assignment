@@ -1,4 +1,4 @@
-import os  # For accessing environment variables
+import os  # For accessing environment variables.
 
 import requests  # For sending HTTP requests to the GitHub API
 from dotenv import load_dotenv  # To load variables from a .env file
