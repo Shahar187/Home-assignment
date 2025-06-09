@@ -1,10 +1,10 @@
-import csv
-from datetime import datetime
+import csv  # For writing data to CSV files
+from datetime import datetime  # For generating timestamped filenames
 
 import extract
 
 
-# This function create a pull request data dictionary
+#  Creates a dictionary from a single pull request object
 def create_dictionary(pr):
     pr_number = pr['number']
     pr_title = pr['title']
@@ -21,15 +21,16 @@ def create_dictionary(pr):
     return pr_dic
 
 
-# This function create the csv report that include all the necessary data
+# Generates a CSV report containing data from all pull requests
 def create_csv_report():
-    pull_requests = extract.get_pr_data()
+    pull_requests = extract.get_pr_data()  # Fetch all pull requests
     data = []
 
     for pr in pull_requests:
         pr_data = create_dictionary(pr)
         data.append(pr_data)
 
+    # Define the CSV file name with a timestamp to make it unique
     with open(f'prDataReports/pr_data {date_time_str}.csv', 'w', newline='') as csv_file:
         field_names = ['PR number', 'PR title', 'Author', 'Merge date', 'CR_Passed']
         writer = csv.DictWriter(csv_file, fieldnames=field_names)
@@ -37,6 +38,7 @@ def create_csv_report():
         writer.writerows(data)
 
 
+# Get the current date and time to use in the report filename
 now = datetime.now()
 date_time_str = now.strftime("%Y-%m-%d_%H-%M-%S")
 
