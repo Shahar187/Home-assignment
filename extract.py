@@ -71,8 +71,8 @@ def get_checks_passed(pr):
 
 
 # Define the owner and repo name to be used in the GitHub API URL
-owner = "Scytale-exercise"
-repo = "scytale-repo3"
+owner = os.getenv("OWNER")
+repo = os.getenv("REPO")
 
 # Base URL for accessing pull requests
 base_url = f"https://api.github.com/repos/{owner}/{repo}"
