@@ -11,12 +11,14 @@ def create_dictionary(pr):
     author = pr['user']['login']
     merge_date = pr['merged_at']
     cr_passed = extract.get_reviews_data(pr_number)
+    checks_passed = extract.get_checks_passed(pr)
 
     pr_dic = {'PR number': pr_number,
               'PR title': pr_title,
               'Author': author,
               'Merge date': merge_date,
-              'CR_Passed': cr_passed}
+              'CR_Passed': cr_passed,
+              'CHECKS_PASSED': checks_passed}
 
     return pr_dic
 
@@ -32,7 +34,7 @@ def create_csv_report():
 
     # Define the CSV file name with a timestamp to make it unique
     with open(f'prDataReports/pr_data {date_time_str}.csv', 'w', newline='') as csv_file:
-        field_names = ['PR number', 'PR title', 'Author', 'Merge date', 'CR_Passed']
+        field_names = ['PR number', 'PR title', 'Author', 'Merge date', 'CR_Passed', 'CHECKS_PASSED']
         writer = csv.DictWriter(csv_file, fieldnames=field_names)
         writer.writeheader()
         writer.writerows(data)

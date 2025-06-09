@@ -17,7 +17,7 @@ def fetch_information(url, headers):
 
 # Retrieves all pull requests from the repository
 def get_pr_data():
-    url = f"{base_url}?state=all"
+    url = f"{base_url}/pulls?state=all"
     response = fetch_information(url, headers=headers)
 
     # If status_code is 200 we made a successful request!
@@ -33,7 +33,7 @@ def get_pr_data():
 
 # Retrieves review status for a specific pull request by PR number
 def get_reviews_data(pr_number):
-    url = f"{base_url}/{pr_number}/reviews"
+    url = f"{base_url}/{pr_number}/pulls/reviews"
     response = fetch_information(url, headers=headers)
 
     # If status_code is 200 we made a successful request!
@@ -50,12 +50,32 @@ def get_reviews_data(pr_number):
         return "Can not fetch reviews"
 
 
+# Checks whether all required checks have succsessfully passed for the latest commit in PR
+def get_checks_passed(pr):
+    # Get the SHA of the last commit in the PR
+    head_sha = pr['head']['sha']
+    url = f"{base_url}/commits/{head_sha}/check-runs"
+    response = fetch_information(url, headers=headers)
+
+    # If status_code is 200 we made a successful request!
+    if response.status_code == 200:
+        data = response.json()
+        check_runs = data.get("check_runs", [])  # Extract the list of check runs
+        all_passed = all(
+            check["conclusion"] == "success" for check in check_runs)  # Determine if all check runs have passed
+
+        return "Yes" if all_passed else "No"
+    # If the API request failed
+    else:
+        return "Unknown"
+
+
 # Define the owner and repo name to be used in the GitHub API URL
 owner = "Scytale-exercise"
 repo = "scytale-repo3"
 
 # Base URL for accessing pull requests
-base_url = f"https://api.github.com/repos/{owner}/{repo}/pulls"
+base_url = f"https://api.github.com/repos/{owner}/{repo}"
 
 # Authentication information
 headers = {
